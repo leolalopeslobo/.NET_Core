@@ -1,0 +1,148 @@
+Day4 - S1
+
+
+The refrence types can store values
+string s = null
+Employee o = null
+-------------------------
+
+int i;
+i = 10;
+i = null //ERROR
+Therefore Value Types cannot store null values
+
+
+But quite often you might want to store null values in a value type and when will this happen, when you are working with a database column
+A database column you do have the option to store null values
+
+
+i = ReadValueFromDbColumn()
+if this function returns a value then OK
+but if this function retuns a null value then ERROR
+
+
+so to achieve this we make use of the 'Nullable Value Type'
+This is a value type that can also store null
+
+
+int? i;
+i = 10;  //OK
+i = null; //OK
+
+Therefore any value type can be converted into nullable by adding a question mark(?)
+
+
+
+------------------------------------------------
+------------------------------------------------
+
+ARRAYS
+
+Why have arrays?
+So first thing is that rather than working with individual variable you can create an array instead
+Secondly since you are using a group of variables with the same name you can access them with an index and write loops to do so
+Also you can write algorithms and functions to workk like searching, sorting, etc.
+
+
+- Single Dimention Array
+- Double Dimention Array
+- Jagged Array
+- Array of Objects
+
+
+Day4 - S2
+
+The problem with arrays is that they are very rigid and that once you fix a value (defining a certain size) it becomes very difficult to change it. So here dynamic changes is not possible
+
+
+So an alternative to this is Collections
+
+--------------------------------
+
+Collections
+-----------
+Generics
+-----------
+What are generics?
+Say suppose you have multiple classes having the same code but with different data types
+
+There are identical classes but with differnt data types
+Now in such a case you can create a single class and use a 'Generic Data Type'
+
+The Generic Datatype will allow you to specify which data type that you want while creating the object of the class
+
+class IntClass
+{
+	void Swap(ref int i, ref int j)
+	{
+		int temp = i;
+		i = j;
+		j = temp;
+	}
+}
+
+The same thing can be written for the string datatype
+
+class StringClass
+{
+	void Swap(ref string i, ref string j)
+	{
+		string temp = i;
+		i = j;
+		j = temp;
+	}
+}
+
+The same can be done for Decimal datatype
+
+
+So instead of creating multiple classes for different datatypes, you instead create only one datatype with a Generic Datatype
+
+class MyClass<T>
+{
+	void Swap(ref T i, ref T j)
+	{
+		T temp = i;
+		i = j;
+		j = temp;
+	}
+}
+
+MyClass<int> o1 = new MyClass<int>();
+MyClass<string> o2 = new MyClass<string>();
+
+
+-----------------------
+
+Generic Constraints
+This retricts what datatype you pass to a the Generic
+
+//Generic Constraints
+//where T : class   //- T must be a reference type
+//where T : struct   //- T must be a value type
+//where T : ClassName   //- T must be either a ClassName or a Derived class
+//where T : InterfaceName   //- T must be a class that implements InterfaceName
+//where T : new()   //- T must have a no parameter constructor
+
+
+
+
+//Combination of Constraints
+//constraints can be combined. new() must appear at the end if new() is used
+//where T : ClassName, InterfaceName
+//where T : ClassName, InterfaceName, new()
+
+
+
+-----------------------------
+
+objArrayList.Clone();  //-> ReadUp on Cloning 
+ReadUp on Shallow Copy and Deep Copy
+Cloning allows you to make a copy of the object
+
+-----------------------------
+
+-Collections
+- ArrayList
+- Hashtable
+- SortedList
