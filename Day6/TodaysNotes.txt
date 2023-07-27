@@ -1,0 +1,280 @@
+Day 6 - S1
+----------
+Event Handling
+(Raising an Event)
+
+Events are notifications that are sent from the developer to the user that something is gone wrog or something has happened
+The user may then may or may take action
+
+Events are used in the UI scenario
+
+
+In a 'Windows Forms App' the code is generated automatically you don't have to really write the entire code
+
+----------------------------------------
+Here you can get the readily avalaible tools by going to View->Toolbox
+
+Here under Common Controls, you have Buttons, Labels, etc
+Here each of them are Classes (for example, Button is a class)
+You can just drag and drop all of them
+
+----------------------------------------
+Event Handling (WorkFlow)
+
+To begin with, when the end-user clicks on the button, the first person who comes to know is the developer. The developer has written code that says if the button has been clicked then raise the click event. Now raising the click event is equivalent to calling the function that the user has written. So the user who is us has written down these functions saying if the button has been clicked then run a particular code. 
+The question here is how does the developer know about the function that the user has written somewhere in the future, since the developer has written the code long ago?
+There is no way he can directly know, and therefore to link the two you make use of 'Delegates'
+
+Delegates allow you call a function indirectly. So the developer creates a delegate class and that delegate has can point to any function that has the particular signature
+Then he declares a delegate reference. That means this is of type delegate mentioned!
+
+In addition to saying it is a reference of delegate type it is also a event
+But if you explicitly mention that it is an event then you get additional features
+Why are if are calling it an event?
+
+So whatever functions Click() points to will get called
+But at that point when the developer has written the code it points to null
+
+Now at the User end
+The user has to create an object of the class and the Click(), has to point to the function the user has created.
+
+And this is how the click is able to point to the function
+and since it pointing it is able to call the function
+
+----------------------------------------
+Event Handling is one major place where Delegates are used
+----------------------------------------
+Events play a major role in UI
+
+
+----------------------------------------
+LINQ - Language Integrated Query
+
+Prerequisites for LINQ
+- Language Features
+
+1. Implicit Variables
+Here you don't declare the datatype and the datatype is picked up from the value you assign
+
+Remember this can be done only once in the program when you create the variable
+Also it compulsory to assign a value to the implicit variable since it needs to pick up it's datatype from the value
+
+var i = 0;
+//This means that i is int
+Also remember that yo cannot change the datatype by assigning it a different datatype value => gives ERROR
+
+
+Implicit Variables are used only for LOCAL Variables (These are variables within a function)
+
+
+Explicit Variables -> Have more readability
+Implicit Variables -> Have less readability
+
+
+var is needed in situations where you don't know what the datatype is, then you make use of var
+This is in the situation of LINQ
+
+----------------------------------------
+2. Anonymous Types
+
+When you say type in .Net think of it as a class
+
+There are 5 basic Types in .Net
+a. Class
+b. Interface
+c. Delegate
+d. Struct
+e. Enum
+
+
+Anonymous Type: This is a class or a type that doesn't have a name
+
+
+Why would want to create an Anonymous type?
+It will be used in a LINQ
+
+
+Class1 obj = new Class1{a = 1, b = "aaa", c = true};  //This is called as an Object Initializer
+Where values can be passed when creating an object
+
+
+Syntax for creating an Anonymous Type
+--------
+var obj = new {a = 1, b = "aaa", c = true};
+--------
+Here it creates a class and also creates the object of the anonymous type
+
+
+----------------------------------------
+3. Partial Classes
+
+Normally you write all the code for a class in one class only
+
+But incase of Partial Class, instead of writing all the code in one class only, you break up all the code into different parts
+Therefore partial class allows you split up the code into multiple classes
+The compiler internally treats it as a single class (the compiler combines it into one class) but here you have the flexibility of creating different parts
+
+
+PARTIAL CLASSES
+partial classes must be in the same assembly (assembly = project)
+partial classes must be in the same namespace
+partial classes must have the same name
+
+
+Why do you need a partial class?
+Case1:
+Say if you have 2 developers working on the same project and are working at the same time, so in this way one part of the project can be completed by one and the other by another
+So the compiler simply later compiles the code
+
+Case2:
+Here also the developer writes some code and so does Visual Studio also, so in this way there is no mixing and altering of each other's code
+Later the compiler compiles the codes/classes
+
+
+
+----------------------------------------
+4. Partial Methods
+
+Rule: Partial Methods can given ONLY in a Partial Class
+
+
+public partial class Class1
+{
+
+partial void PartialMethod();  //looks like the abstract method
+//This is so that someone maybe later can add some code to it
+
+	public void DoSomething()
+	{
+		........
+		........
+		PartialMethod();  //since at present it doesn't have anything and its empty so the compiler simply removes it
+	}
+}
+
+
+
+Later someone who wants to will create another partial class and write some code in the partial method
+
+
+
+Why are we doing this??
+This concept is mainly used when Visual Studio Generates the code for you and it allows you to add some code if you want to
+So in this way you are not putting code in Visual Studio but you are still allowed to add the code
+
+Also used in LINQ
+
+
+    //Rules for Partial Methods
+    //Partial Methods can only be defined within a partial class
+    //Partial Methods must return void
+    //Partial mthids can be static or instance level
+    //Partial methods cannot have out params
+    //Partial methods are always implicitly private
+
+
+
+
+----------------------------------------
+5. Extension Methods
+
+This concept says that if there is an existing type you can add methods to that type
+
+Say for example there is a class
+
+Class1 {a(), b()}  //some methods defined in the class
+
+We can create an extension method for Class1 say c
+Extension method for Class1 - c()
+
+Extension method for int - x()
+
+
+-------
+So when we create an object we get all 3 methods a(), b() and c()
+
+int i = 100;
+i.x()
+
+
+How is this even possible?
+OMG!! How is this happening
+But actually it is Acha okay this is how it works:) Phew! My OOPs still holds good
+Here the Visual Studio and the compiler makes a total fool of us
+
+
+Why would you need this?
+For LINQ
+
+
+If you add an extension for the base class that method will also be avalaible for the derived
+
+
+BaseClass
+
+DerivedClass : BaseClass
+
+------------
+
+Interface1
+
+Class1 : Interface1
+
+
+Similarly if you define an extension method for an Interface then that is also avalaible for the Class that implements that interface
+
+
+These concept is used and was mainly introduced for LINQ
+
+
+
+
+
+
+
+Day6 S2
+--------
+Language INtegarted Query (LINQ)
+
+
+Before LINQ, if you have data in .Net how do you represent this using
+- storing it in an array or collection
+- xml
+- or coming in from a database and the use sql to query it
+- dataset
+- entity framework (similar to ORM in hibernet)
+So each of these you have its own set of details that you can work with
+
+
+So instead of having to have so many different ways to work with the above instead it would be better to have one commmon set of syntax and that is given by LINQ
+
+
+Why is Language INtegrated Query?
+Bcz the syntaxes used will be according to the langauage
+
+
+When LINQ is used with the following objects
+- Array/Collection - LINQ to objects
+- XML - LINQ to XML
+- SQL - LINQ to SQL
+- Dataset - LINQ to Dataset
+- Entity Framework - LINQ to Entities
+
+
+Prerequisites:
+For a LINQ to work then it must implement IEnumerable or IQueryable
+Also, IQueryable also implements IEnumerable
+
+
+In LINQ:
+- You can either the whole object
+- Single Property or
+- Anonymous Type
+
+
+
+Go through a Website called LINQ samples
+https://linqsamples.com/
+
+
+----------------------------------------
