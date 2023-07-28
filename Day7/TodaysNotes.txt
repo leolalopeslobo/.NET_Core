@@ -1,0 +1,330 @@
+Day 7 - S1
+----------
+GroupBy
+This allows you to create groups of data
+
+
+IEnumerable<IGrouping<int,Employee>> - This is a IEnumerable(collection) of groups, and each group has a key and whatever you are giving
+In this case the Key is int datatype since DeptNo is an int
+
+Output:
+10,
+(new Employee { EmpNo = 1, Name = "Vikram", Basic = 10000, DeptNo = 10, Gender = "male" });
+(new Employee { EmpNo = 2, Name = "Vikas", Basic = 11000, DeptNo = 10, Gender = "male" });
+
+
+20,
+(new Employee { EmpNo = 3, Name = "Abhijit", Basic = 12000, DeptNo = 20, Gender = "male" });
+(new Employee { EmpNo = 4, Name = "Mona", Basic = 11000, DeptNo = 20, Gender = "female" });
+(new Employee { EmpNo = 5, Name = "Shweta", Basic = 12000, DeptNo = 20, Gender = "female" });
+
+
+and this continues
+Therefore,
+Key: int
+Value: Group of Employees
+----------------------------------------
+
+We can also give the group a name
+And this allows us to use Anonymous Type, hence more flexibility
+----------------------------------------
+
+var emps = from emp in lstEmp select emp;
+
+Here we need to understand that the above query doesnt run immediately
+But instead it does run when we try and access 'emps'
+So it runs here
+foreach(var item in emps)
+{
+	Console.WriteLine(item);
+}
+
+
+Also here we see the concept of 'deferred execution'
+----------------------------------------
+Deferred Execution
+----------------------------------------
+
+What if we dont want deferred execution and on the same line we must execute the query? Then you have to do the following
+For immediate execution you need to call a .ToList(), .toArray or a .ToDictionary()
+This forces 'Immediate Execution'
+----------------------------------------
+More LINQ Samples
+string[] colors = {"Red", "Green", "Blue"};
+
+ElementAt();
+ElementAtOrDefault();
+First();
+FirstAtOrDefault();
+First(condition);
+Single()
+SingleOrDefault()
+[Single(), SingleOrDefault() - used for searching]
+----------------------------------------
+
+Parallel LINQ
+
+
+----------------------------------------
+----------------------------------------
+Asynchronous Codes using Threading
+
+Async Code
+Ways of doing threading
+- System.Threading (namespace)
+
+All the classes required for Threading are in the System.Threading namespace
+
+Who is managing the threads?
+The CLR is responsible for Thread Management
+
+
+
+Threads that wait for the other threads to finish are called as ForeGround Threads
+
+All threads by default are ForeGround Threads
+
+
+Suppose we dont want the threads to hold up the code, the you can run it as a BackGroundThread
+So here the program terminates therefore it doesnt wait
+
+
+BackGround Threads dont wait for it to get over
+
+
+-----------
+Join() - This waits for the Thread to get over
+-----------
+Priority - ThreadPriority
+- Highest
+- Lowest
+- Normal
+- AboveNormal
+- BelowNormal
+-----------
+
+----------------------------------------
+----------------------------------------
+ThreadStates
+- Unstarted
+- Running
+- StopRequested
+- Stopped
+- AbortedRequested
+- Aborted
+
+
+Unstarted -> Running -> (for a few very time)StopRequested -> Stopped
+
+StopRequested is so brief that you can't use it in the code
+
+
+While running a thread you can use Thread.Abort (Deprecated now)
+But it abruptly terminates the Thread
+AbortedRequested -> Aborted -> StopRequested -> Stopped
+
+There is also
+- Suspend
+- Resume
+These are also Deprecated
+There is also SuspendRequested
+
+
+
+ThreadState
+Background when you make it true
+-----------
+
+There are 3 ways in which you can put your thread into 'waiting state'
+- Wait
+- Sleep
+- Join
+
+
+
+Wait 
+An alternate way of doing a Suspend or Resume
+
+
+----------------------------------------
+//What do Anonymous Methods give that Regular Methods dont give
+//Anonymous Methods can access variables from outside
+----------------------------------------
+
+
+
+
+
+
+Day 7 - S2
+--------
+Passing Parameters to the Thread
+
+//Possibilities to pass multiple values to a function called on another thread
+            //- Array/Collection
+            //- Create a class/struct which contains properties matching parameters -- pass an object of the class
+            //Difference between class and struct
+            //Class is reference type and supports inheritance
+            //Struct is value type and no inheritance
+            //Anonymous Method or a Local Function or a Lambda Function - and access variables declared in calling code
+
+
+
+
+----------------------------------------
+dynamic
+
+The dynamic keyword in C# allows variables to hold different data types at runtime, enabling dynamic typing. Its use defers type checking until runtime, offering flexibility but sacrificing compile-time safety. Example:
+
+csharp
+Copy code
+dynamic dynamicVar = 10;
+dynamicVar = "Hello";
+dynamicVar = new { Name = "John", Age = 30 };
+Console.WriteLine(dynamicVar.Name); // Output: John
+In this snippet, the dynamic variable changes its type at runtime, accommodating different data structures.
+----------------------------------------
+----------------------------------------
+ThreadPool
+
+So long we are creating objects of the Thread
+There are advantages and disadvantages for both:
+Adv:
+You get a lot of control
+----------
+
+The concept of the ThreadPool is that you have a Pool
+In a pool you have all the resources, hence you have access to all the resources and you make use of them for faster working rather than creating a thread
+
+Major Advantage of Having a "pool"
+is that you dont have to create a resource but you can readily use it
+
+The disadvantage is that 
+- There is no flexibility will the resources
+- You also won't get the same resource again(everytime)
+----------
+
+Features of a Pool:
+How to determine who gets the resource first?
+There has to be a queue system that needs to be maintained
+----------
+
+Concept of how many resources are currently avaliable?
+There is something called as an 'avalaible pool size'
+
+'minimum pool size' - how many minimum number of resources should be avalaible
+'maximum pool size' - how many maximum number of resources should be avalaible
+
+
+ThreadPool is a set of threads that the CLR manages that is kept ready and waiting for you
+
+Here you gain SPEED but lose CONTROL
+
+-------------------
+Therefore, by default when you create a thread from a ThreadPool they are Backgound Threads
+-------------------
+
+
+----------------------------------------
+----------------------------------------
+Synchronization in Threads
+
+The process in which if two or more resources are accessing the same resources 
+How do you handle?
+
+Say if there a common resource and one thread may make a change that the other thread doesnt want
+For example:
+static int i = 100;
+
+func1(){
+int j;
+j = ++i;  //101
+----------------- func2() starts
+int k;
+k = --i;  //100
+
+cw(j+k);  //201 200* (therefore * is the incorrect value obtained due to func2 interference)
+}
+
+func2(){
+int l;
+l = ++i;  //101
+}
+
+if both ran together and when func1() was running then it suddenly paused the func2() ran then the value ultimately obtained will be different and not as desired
+
+
+
+SO if one if making changes and while doing so if another function comes and makes changes then this shoule not be allowed and therefore you 'synchronise your code'
+
+
+----------
+To overcome this synchronise your code by
+- Using the 'lock' statement
+This work that if someone is using the lock() then the other cannot access it until it is released
+The lock acts as a token
+
+For example:
+static int i = 100;
+object obj;
+
+func1()
+{
+lock(obj)  ---- Internally the lock statement calls the class Monitor.Enter(obj)
+{
+int j;
+j = ++i;  //101
+----------------- func2() starts
+int k;
+k = --i;  //100
+
+cw(j+k);  //201 200* (therefore * is the incorrect value obtained due to func2 interference)
+} ---- Internally the lock statement calls the class Monitor.Exit(obj)
+}
+
+func2(){
+lock(obj)
+{
+int l;
+l = ++i;  //101
+} //lock released
+}
+
+Monitor.Enter(obj)
+Monitor.Exit(obj)
+
+
+
+
+- Using AutoResetEvent
+Using the WaitHandle
+
+
+
+- Using Classes called Mutex and Semaphores
+Used to synchronize between processors
+
+
+In .NET, Mutex and Semaphore are synchronization primitives used to coordinate and control access to shared resources among multiple processes.
+
+Mutex: A Mutex (short for mutual exclusion) is a synchronization object that ensures only one process can acquire the lock (ownership) of the mutex at a time. It provides exclusive access to shared resources, preventing data corruption or conflicts. If a process attempts to acquire a locked mutex, it will be blocked until the owning process releases it.
+
+Semaphore: A Semaphore is a synchronization construct that allows a fixed number of processes (thread count) to access a shared resource simultaneously. It maintains a count, and when a process acquires the semaphore, the count is decremented. If the count reaches zero, subsequent processes attempting to acquire it are blocked until the semaphore is released.
+
+Both Mutex and Semaphore are essential in multi-process scenarios to avoid race conditions, maintain data consistency, and ensure proper resource utilization. Developers should choose the appropriate synchronization primitive based on the specific requirements of their applications.
+
+
+
+In .NET, Mutex and Semaphore are tools to make sure that multiple processes can work together without messing up each other's work. Imagine you and your friends need to share some toys, but only one friend can play with them at a time. A Mutex is like a special token that only one friend can hold at a time. Whoever has the token can play with the toys, and others have to wait until it's free.
+
+On the other hand, a Semaphore is like having a specific number of toy sets available. Let's say there are two toy sets and three friends. Only two friends can play with the toys simultaneously, and the third friend must wait until one toy set becomes available.
+
+These synchronization tools prevent conflicts and ensure that everyone gets a fair chance to use the shared resources in a controlled and orderly manner.
+------
+
+Instead of using multiple lock statements you have a class called 'Interlocked'
+
+This will be used for Thread Safe Synchronised Code, making sure that if there is an arithmetic operation that you want to perform than in the middle of that operation nobody else gets control
+
+-------------
+There is so much more to threads that you can learn!!!
